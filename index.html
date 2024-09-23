@@ -56,27 +56,18 @@
         const messageInput = document.getElementById('message-input');
         const sendButton = document.getElementById('send-btn');
     
-        // Log when WebSocket connection is established
         socket.onopen = function() {
             console.log("WebSocket connection established");
         };
     
-        // Listen for messages from the server and display them in the chat
         socket.onmessage = function(event) {
             console.log(`Message received from server: ${event.data}`);
             const message = document.createElement('p');
-            message.innerHTML = formatMessage(event.data);  // Format message to include clickable links
+            message.innerHTML = event.data;  // Use innerHTML to render the formatted message
             chatBox.appendChild(message);
             chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to the bottom
         };
     
-        // Function to format messages, replacing URLs with clickable links
-        function formatMessage(msg) {
-            const urlRegex = /(https?:\/\/[^\s]+)/g;  // Regex to match URLs
-            return msg.replace(urlRegex, '<a href="$&" target="_blank">link</a>');
-        }
-    
-        // Send message when the user clicks the "Send" button
         sendButton.onclick = function() {
             const message = messageInput.value;
             if (message !== '') {
@@ -86,12 +77,11 @@
             }
         };
     
-        // Allow pressing Enter to send the message
         messageInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 sendButton.click();
             }
         });
-    </script>    
+    </script>       
 </body>
 </html>
