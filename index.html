@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Network Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        #chat-box {
+            width: 80%;
+            max-width: 600px;
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: white;
+            margin-bottom: 10px;
+        }
+
+        #message-input {
+            width: 80%;
+            max-width: 600px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #send-btn {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Local Network Chat</h1>
+    <div id="chat-box"></div>
+    <input type="text" id="message-input" placeholder="Type your message here..." autofocus>
+    <button id="send-btn">Send</button>
+
+    <script>
+        // WebSocket connection to the server
+        const socket = new WebSocket('ws://192.168.1.83:61000');  // Ensure this IP matches your machine
+
+        const chatBox = document.getElementById('chat-box');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-btn');
+
+        // Log when WebSocket connection is established
+        socket.onopen = function() {
+            console.log("WebSocket connection established");
+        };
+
+        // Log when WebSocket encounters an error
+        socket.onerror = function(error) {
+            console.log("WebSocket Error: ", error);
+        };
+
+        // Log when WebSocket connection is closed
+        socket.onclose = function() {
+            console.log("WebSocket connection closed");
+        };
+
+        // Listen for messages from the server and display them in the chat
+        socket.onmessage = function(event) {
+            console.log(`Message received from server: ${event.data}`);
+            const message = document.createElement('p');
+            message.textContent = event.data;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to the bottom
+        };
+
+        // Send message when the user clicks the "Send" button
+        sendButton.onclick = function() {
+            const message = messageInput.value;
+            if (message !== '') {
+                console.log(`Sending message: ${message}`);
+                socket.send(message);  // Send message to the server
+                messageInput.value = '';  // Clear the input field
+            }
+        };
+
+        // Allow pressing Enter to send the message
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
