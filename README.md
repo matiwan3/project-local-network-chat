@@ -16,3 +16,11 @@ or use bash scripts
 `run_server_windows.bat`  
 ### Linux
 `run_server_linux.sh`  
+
+# Run example
+1. _Terminal view_  
+![image](https://github.com/user-attachments/assets/4362e0a7-5697-44fa-a595-37507e055b18)
+
+2. _User view_  
+![image](https://github.com/user-attachments/assets/b0a433c3-be92-4467-b39f-54bfb216eb5a)
+
