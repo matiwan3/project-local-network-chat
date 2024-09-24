@@ -7,7 +7,25 @@
     <style>
         h1 {
             color: white;
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400%;
+            animation: rainbow 5s infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
+        @keyframes rainbow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         body {
             font-family: Arial, sans-serif;
             display: flex;
